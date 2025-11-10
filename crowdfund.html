@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowdfund a Poet - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+
+    <style>
+        .crowdfund-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .crowdfund-card {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #2ecc71;
+        }
+
+        .crowdfund-card h2 {
+            color: #2ecc71;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .project-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .project-item .progress-bar {
+            width: 150px;
+            height: 10px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .project-item .progress-fill {
+            height: 100%;
+            background-color: #2ecc71;
+        }
+        
+        .pledge-btn {
+            background-color: var(--warning-color);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>🤝 Crowdfund / Micro-Loan அமைப்பு</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="crowdfund-container">
+            <div class="crowdfund-card">
+                <h2>🌟 Crowdfund a Poet (Pledge)</h2>
+                <p>உங்களுக்குப் பிடித்த கவிஞர்களின் புதிய படைப்பு முயற்சிகளுக்கு நிதி உதவி செய்யுங்கள்.</p>
+
+                <ul class="project-list" id="project-list">
+                    <li class="project-item">
+                        <div>
+                            <strong>கவிஞர் கௌதம்: "தொகுப்பு 3 வெளியீடு"</strong>
+                            <small style="display:block; color:#777;">தேவை: 5000 TK | திரட்டியது: 3000 TK</small>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
+                            <button class="pledge-btn" onclick="makePledge('Gautham')">உறுதிமொழி</button>
+                        </div>
+                    </li>
+                    <li class="project-item">
+                        <div>
+                            <strong>கவிஞர் சிவா: "ஆடியோ புத்தகப் பதிவு"</strong>
+                            <small style="display:block; color:#777;">தேவை: 1000 TK | திரட்டியது: 100 TK</small>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="progress-bar"><div class="progress-fill" style="width: 10%;"></div></div>
+                            <button class="pledge-btn" onclick="makePledge('Siva')">உறுதிமொழி</button>
+                        </div>
+                    </li>
+                    <li style="text-align:center; padding-top: 20px;"><i class="fas fa-info-circle"></i> கூடுதல் திட்டங்கள் விரைவில்...</li>
+                </ul>
+                
+                <h4 style="margin-top: 30px;">சிறு கடன் / மானியம் (Micro-Loan)</h4>
+                <p style="font-size: 0.95em; color:#777;">சிறந்த கவிஞர்கள் தங்கள் பணிக்காகச் சிறு கடன்களுக்கு விண்ணப்பிக்கலாம். (DeFi மூலம்)</p>
+                <button class="subscribe-btn" onclick="window.location.href='micro_loan.html'">
+                    <i class="fas fa-hand-holding-usd"></i> கடன் விண்ணப்பம்
+                </button>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+    </footer>
+
+    <script>
+        // Placeholder for pledge logic
+        window.makePledge = function(poetName) {
+            window.showToastNotification(`${poetName} கவிஞருக்கு நிதி உதவி செய்யக் கோரினீர்கள்.`, 'success');
+        }
+    </script>
+</body>
+                              </html>
