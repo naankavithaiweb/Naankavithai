@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ஆசிரியர் லீடர்போர்டு - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="gamification.js"></script> 
+
+    <style>
+        .leaderboard-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section for Poet of the Day/Week */
+        .poet-of-the-day {
+            background-color: #ffcc00; /* Gold/Yellow */
+            color: #333;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+        }
+        
+        .poet-of-the-day h2 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 2em;
+        }
+
+        .poet-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #333;
+            margin: 10px auto;
+            display: block;
+            object-fit: cover;
+        }
+        
+        /* Leaderboard List */
+        .leaderboard-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .leaderboard-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--card-background);
+            margin-bottom: 8px;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+        
+        .leaderboard-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Specific Ranks Styling */
+        .leaderboard-list li:nth-child(1) { background-color: #ffd70044; font-weight: bold; border-left: 5px solid #ffd700; } /* Gold */
+        .leaderboard-list li:nth-child(2) { background-color: #c0c0c044; border-left: 5px solid #c0c0c0; } /* Silver */
+        .leaderboard-list li:nth-child(3) { background-color: #cd7f3244; border-left: 5px solid #cd7f32; } /* Bronze */
+
+        .rank {
+            font-size: 1.5em;
+            font-weight: bold;
+            width: 50px;
+            text-align: center;
+        }
+        
+        .author-info {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+
+        .score {
+            font-size: 1.1em;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .leaderboard-list .loading {
+             text-align: center;
+             width: 100%;
+             padding: 20px;
+             color: #777;
+             font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>🏆 கவிஞர் லீடர்போர்டு & கௌரவம்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="leaderboard-container">
+            
+            <div class="poet-of-the-day">
+                <h2>👑 இன்றைய கவிஞர்</h2>
+                <img class="poet-avatar" id="potd-avatar" src="placeholder-avatar.png" alt="இன்றைய கவிஞர்">
+                <h3 id="potd-name">கவிஞர் புகழ்</h3>
+                <p id="potd-reason">இந்த வாரம் அதிக லீடர்போர்டு மதிப்பெண் பெற்றவர் (Poet of the Week)</p>
+            </div>
+
+            <div class="leaderboard-section">
+                <h2>முன்னணி 10 கவிஞர்கள் (Leaderboard Score)</h2>
+                
+                <ul class="leaderboard-list" id="author-leaderboard-list">
+                    <li class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> லீடர்போர்டு தரவு ஏற்றுகிறது...
+                    </li>
+                </ul>
+            </div>
+            
+            <div style="text-align:center; margin-top: 30px;">
+                <a href="profile" class="approve-btn">
+                    <i class="fas fa-trophy"></i> எனது சாதனைகளைப் பார் (Achievements)
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. கௌரவப் பகுதி.</p>
+        <div class="contact-icons">
+            <a href="mailto:naankavithaiweb@gmail.com" title="மின்னஞ்சல்" class="icon-btn"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/94752351754" target="_blank" title="வாட்ஸ்அப் (Mobile)" class="icon-btn"><i class="fab fa-whatsapp"></i></a>
+            <a href="tel:+94752351754" title="மொபைல் அழைப்பு" class="icon-btn"><i class="fas fa-phone"></i></a>
+            <a href="https://t.me/Mohammed_Sahan_1" target="_blank" title="டெலிகிராம் ID" class="icon-btn"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://t.me/Naan_kavithai" target="_blank" title="டெலிகிராம் சேனல்" class="icon-btn"><i class="fas fa-users"></i></a>
+            <a href="https://chat.whatsapp.com/C8BPddhMuTmE2Q0ZA8tIep" target="_blank" title="வாட்ஸ்அப் குழு" class="icon-btn"><i class="fab fa-whatsapp-square"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Calls the initialization function from gamification.js to load the leaderboard
+        document.addEventListener('DOMContentLoaded', () => {
+             // Mock Poet of the Day (This needs server logic for actual selection)
+            document.getElementById('potd-name').textContent = "கவிஞர் பாரதி"; 
+            document.getElementById('potd-avatar').src = "placeholder-avatar.png";
+            
+            // Function from gamification.js
+            window.displayAuthorLeaderboard(); 
+        });
+    </script>
+</body>
+                  </html>
