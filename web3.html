@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 & டோக்கன் இணைப்பு - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="web3_wallet.js"></script> <style>
+        .web3-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .web3-group {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border-left: 5px solid #8e44ad; /* Purple for Web3/DeFi */
+        }
+        
+        .web3-group h3 {
+            color: #8e44ad;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .wallet-status {
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 1.1em;
+        }
+
+        .connect-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            background-color: #f39c12; /* Orange/Gold */
+            color: white;
+            transition: background-color 0.2s;
+        }
+        
+        .connect-btn:hover {
+            background-color: #d35400;
+        }
+
+        .disconnect-btn {
+            background-color: #c0392b;
+        }
+        
+        .disconnect-btn:hover {
+            background-color: #a03124;
+        }
+        
+        .token-gated-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .token-gated-list li {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .token-gated-list li .status {
+            font-weight: bold;
+            color: #2ecc71;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>Web3 வாலட் மற்றும் டோக்கன் அடிப்படையிலான அம்சங்கள்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="web3-container">
+            
+            <div class="web3-group">
+                <h3><i class="fas fa-wallet"></i> கிரிப்டோ வாலட் இணைப்பு</h3>
+                <span class="wallet-status" id="wallet-status">வாலட் இணைக்கப்படவில்லை.</span>
+                
+                <button class="connect-btn" id="connect-wallet-btn" onclick="connectExternalWallet()">
+                    <i class="fab fa-ethereum"></i> Metamask/External Wallet-ஐ இணை
+                </button>
+                <button class="connect-btn disconnect-btn" id="disconnect-wallet-btn" style="display:none;" onclick="disconnectExternalWallet()">
+                    <i class="fas fa-unlink"></i> வாலட் துண்டிப்பு
+                </button>
+                
+                <p style="margin-top: 20px;">**இணைக்கப்பட்ட முகவரி (Address):** <span id="wallet-address">N/A</span></p>
+            </div>
+
+            <div class="web3-group">
+                <h3><i class="fas fa-lock"></i> டோக்கன் கட்டுப்படுத்தப்பட்ட உள்ளடக்கம் (Token Gated Content)</h3>
+                <p>உங்களிடம் உள்ள நாண் கவிதை டோக்கன்களின் (NKT) அடிப்படையில் திறக்கப்படும் சிறப்பு உள்ளடக்கங்கள்.</p>
+                
+                <ul class="token-gated-list" id="token-gated-list">
+                    <li>
+                        <span>Exclusive Content - Tier 1 (Req: 100 NKT)</span>
+                        <span class="status locked" id="content-status-1" style="color:#e74c3c;">பூட்டப்பட்டுள்ளது</span>
+                    </li>
+                    <li>
+                        <span>Secret Poet Forum Access (Req: 500 NKT)</span>
+                        <span class="status locked" id="content-status-2" style="color:#e74c3c;">பூட்டப்பட்டுள்ளது</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="web3-group">
+                <h3><i class="fas fa-file-contract"></i> உரிமத்திற்கான டீசென்ட்ரலைஸ்டு எஸ்க்ரோ</h3>
+                <p>Ethereum அல்லது Polygon போன்ற பிளாக்செயினில் உள்ள ஸ்மார்ட் கான்ட்ராக்ட் நிலை இங்கே காட்டப்படும்.</p>
+                <button class="connect-btn" onclick="checkEscrowStatus()">
+                    <i class="fas fa-search"></i> செயலில் உள்ள எஸ்க்ரோ நிலை
+                </button>
+            </div>
+
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. Web3 இணைப்பு.</p>
+        <div class="contact-icons">
+            <a href="mailto:naankavithaiweb@gmail.com" title="மின்னஞ்சல்" class="icon-btn"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/94752351754" target="_blank" title="வாட்ஸ்அப் (Mobile)" class="icon-btn"><i class="fab fa-whatsapp"></i></a>
+            <a href="tel:+94752351754" title="மொபைல் அழைப்பு" class="icon-btn"><i class="fas fa-phone"></i></a>
+            <a href="https://t.me/Mohammed_Sahan_1" target="_blank" title="டெலிகிராம் ID" class="icon-btn"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://t.me/Naan_kavithai" target="_blank" title="டெலிகிராம் சேனல்" class="icon-btn"><i class="fas fa-users"></i></a>
+            <a href="https://chat.whatsapp.com/C8BPddhMuTmE2Q0ZA8tIep" target="_blank" title="வாட்ஸ்அப் குழு" class="icon-btn"><i class="fab fa-whatsapp-square"></i></a>
+        </div>
+    </footer>
+
+</body>
+                                          </html>
