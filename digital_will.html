@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>டிஜிட்டல் உயில் - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="profile.js"></script> <style>
+        .will-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .will-card {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #e74c3c; /* Red for serious topic */
+        }
+
+        .will-card h2 {
+            color: #e74c3c;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .will-card input, .will-card select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .will-card button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .will-card button:hover {
+            background-color: #c0392b;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>டிஜிட்டல் சொத்து மற்றும் வாரிசுரிமை அமைப்புகள்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="will-container">
+            <div class="will-card">
+                <h2>⚰️ டிஜிட்டல் உயில் / நாமினி அமைப்பு</h2>
+                <p>உங்களுக்குப் பிறகு உங்கள் கணக்கு மற்றும் கவிதைகள் எப்படி நிர்வகிக்கப்பட வேண்டும் என்பதை இங்கே அமைக்கலாம்.</p>
+                
+                <form id="digital-will-form">
+                    <label for="nominee-email">நாமினியின் மின்னஞ்சல் (Nominee Email):</label>
+                    <input type="email" id="nominee-email" placeholder="நம்பகமான நபரின் மின்னஞ்சல்" required>
+                    
+                    <label for="asset-control">உள்ளடக்க உரிமைப் பரிமாற்றம்:</label>
+                    <select id="asset-control">
+                        <option value="delete">கணக்கு மற்றும் அனைத்து உள்ளடக்கங்களையும் நீக்கவும்</option>
+                        <option value="transfer">நாமினிக்கு அனைத்து உரிமைகளையும் மாற்றவும் (பரிமாற்றம்)</option>
+                        <option value="archive">பொதுவில் பாதுகாக்கப்பட்ட காப்பகமாக வைக்கவும்</option>
+                    </select>
+                    
+                    <label for="will-message">நாமினிக்குச் செய்தி (விரும்பினால்):</label>
+                    <textarea id="will-message" rows="3" placeholder="ஏதேனும் சிறப்பு வழிமுறைகள்..."></textarea>
+                    
+                    <button type="submit" onclick="updateDigitalWill()">
+                        <i class="fas fa-save"></i> உயில் அமைப்பைச் சேமி
+                    </button>
+                    
+                    <p style="margin-top: 15px; font-size: 0.9em; color:#777;">
+                        இந்தத் தரவு என்க்ரிப்ட் செய்யப்பட்டுப் பாதுகாக்கப்படும்.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+    </footer>
+
+</body>
+  </html>
