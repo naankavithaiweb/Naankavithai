@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>வரி மற்றும் இணக்க லெட்ஜர் - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="ledger.js"></script> 
+
+    <style>
+        .ledger-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .ledger-card {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border-left: 5px solid #f39c12; /* Orange for Finance */
+        }
+        
+        .ledger-card h3 {
+            color: #f39c12;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .ledger-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .ledger-table th, .ledger-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .ledger-table th {
+            background-color: #f8f8f8;
+            color: #555;
+        }
+        
+        .download-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>🧾 வரி மற்றும் இணக்க லெட்ஜர்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="ledger-container">
+            <h2>வருமானம் மற்றும் சட்ட இணக்கப் பதிவுகள்</h2>
+
+            <div class="ledger-card">
+                <h3>சம்பாதித்த தொகை விவரங்கள் (TK)</h3>
+                
+                <p><strong>மொத்த சம்பாதித்த தொகை (TK):</strong> <span id="total-earnings-display">ஏற்றுகிறது...</span></p>
+                <p><strong>மொத்தப் பணம் எடுப்பு (TK):</strong> <span id="total-withdrawal-display">ஏற்றுகிறது...</span></p>
+                
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th>தேதி</th>
+                            <th>விளக்கம்</th>
+                            <th>தொகை (TK)</th>
+                            <th>நிலை</th>
+                        </tr>
+                    </thead>
+                    <tbody id="earnings-records">
+                        <tr><td colspan="4" style="text-align:center;">வருமானப் பதிவுகளை ஏற்றுகிறது...</td></tr>
+                    </tbody>
+                </table>
+                
+                <button class="download-btn" onclick="downloadLedger('earnings')">
+                    <i class="fas fa-download"></i> வருமானப் பதிவுகளைப் பதிவிறக்கு (CSV)
+                </button>
+            </div>
+            
+            <div class="ledger-card">
+                <h3>டோக்கன் பரிவர்த்தனைகள் & ஒப்பந்தங்கள்</h3>
+                
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th>தேதி</th>
+                            <th>வகை</th>
+                            <th>டோக்கன்</th>
+                            <th>பிளாக்செயின் Hash</th>
+                        </tr>
+                    </thead>
+                    <tbody id="token-records">
+                        <tr><td colspan="4" style="text-align:center;">டோக்கன் பதிவுகளை ஏற்றுகிறது...</td></tr>
+                    </tbody>
+                </table>
+                
+                <button class="download-btn" onclick="downloadLedger('token')">
+                    <i class="fas fa-download"></i> டோக்கன் பதிவுகளைப் பதிவிறக்கு (CSV)
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. சட்ட இணக்கப் பகுதி.</p>
+        <div class="contact-icons">
+            <a href="mailto:naankavithaiweb@gmail.com" title="மின்னஞ்சல்" class="icon-btn"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/94752351754" target="_blank" title="வாட்ஸ்அப் (Mobile)" class="icon-btn"><i class="fab fa-whatsapp"></i></a>
+            <a href="tel:+94752351754" title="மொபைல் அழைப்பு" class="icon-btn"><i class="fas fa-phone"></i></a>
+            <a href="https://t.me/Mohammed_Sahan_1" target="_blank" title="டெலிகிராம் ID" class="icon-btn"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://t.me/Naan_kavithai" target="_blank" title="டெலிகிராம் சேனல்" class="icon-btn"><i class="fas fa-users"></i></a>
+            <a href="https://chat.whatsapp.com/C8BPddhMuTmE2Q0ZA8tIep" target="_blank" title="வாட்ஸ்அப் குழு" class="icon-btn"><i class="fab fa-whatsapp-square"></i></a>
+        </div>
+    </footer>
+
+</body>
+  </html>
