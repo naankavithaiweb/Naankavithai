@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>உரிம விற்பனை - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+
+    <style>
+        .license-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .sale-card {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #00a86b;
+            margin-bottom: 30px;
+        }
+        
+        .sale-item {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .escrow-btn {
+            background-color: #9b59b6;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>கவிதை உரிமச் சந்தை மற்றும் எஸ்க்ரோ</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="license-container">
+            <h2>📜 வணிகப் பயன்பாட்டுக்கான உரிம விற்பனை</h2>
+            
+            <div class="sale-card">
+                <h3>செயலில் உள்ள விற்பனைகள்</h3>
+                
+                <div class="sale-item">
+                    <div>
+                        <strong>உரிமம்: கவிதை "காலம் பேசும் வார்த்தைகள்"</strong>
+                        <small style="display:block; color:#777;">தேவை: 500 NKT (வணிகப் பயன்பாடு) | வகை: CC-BY</small>
+                    </div>
+                    <button class="escrow-btn" onclick="initiateEscrow('ID1')">எஸ்க்ரோவைத் தொடங்கு</button>
+                </div>
+                
+                <div class="sale-item">
+                    <div>
+                        <strong>உரிமம்: கவிதைத் தொடர் "சமூகப் பார்வை"</strong>
+                        <small style="display:block; color:#777;">தேவை: 2000 NKT (சினிமா பயன்பாடு)</small>
+                    </div>
+                    <button class="escrow-btn" onclick="initiateEscrow('ID2')">எஸ்க்ரோவைத் தொடங்கு</button>
+                </div>
+                
+                <p style="margin-top: 20px;">
+                    <i class="fas fa-info-circle"></i> பரிவர்த்தனைகள் Web3 Escrow மூலம் பாதுகாக்கப்படுகின்றன.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 நான் கவிதை.</p>
+    </footer>
+
+    <script>
+        window.initiateEscrow = function(licenseId) {
+            window.showToastNotification(`உரிமம் ${licenseId} க்கான எஸ்க்ரோ செயல்முறை Web3 வாலட் மூலம் தொடங்குகிறது.`, 'warning');
+        }
+    </script>
+</body>
+  </html>
