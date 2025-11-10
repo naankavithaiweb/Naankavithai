@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>தனிப்பட்ட செய்திகள் - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="chat.js"></script> <style>
+        /* This CSS aims to create a dedicated chat interface */
+        
+        .chat-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            height: calc(100vh - 100px); /* Fill most of the viewport height */
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- 1. Sidebar (Conversation List) --- */
+        .chat-sidebar {
+            width: 300px;
+            min-width: 300px;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            padding-top: 10px;
+        }
+        
+        body.dark-mode .chat-sidebar {
+            background-color: #2c3e50;
+        }
+
+        .chat-sidebar h3 {
+            padding: 0 15px;
+            color: var(--primary-color);
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .conversation-item:hover, .conversation-item.active {
+            background-color: var(--background-color);
+        }
+
+        .conv-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .conv-info strong {
+            display: block;
+            color: var(--text-color);
+        }
+
+        .conv-info small {
+            color: #777;
+            font-size: 0.85em;
+        }
+
+
+        /* --- 2. Main Chat Area --- */
+        .chat-main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .message-area {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 60%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            line-height: 1.4;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            background-color: var(--secondary-color);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.received {
+            align-self: flex-start;
+            background-color: #e0e0e0;
+            color: var(--text-color);
+            border-bottom-left-radius: 2px;
+        }
+        
+        body.dark-mode .message.received {
+            background-color: #3f5161;
+        }
+
+        /* Real-time Typing Indicator */
+        #typing-indicator {
+            padding: 5px 20px;
+            font-style: italic;
+            color: #555;
+            min-height: 25px;
+            display: none; /* Hidden by default */
+        }
+
+
+        /* --- 3. Input Area --- */
+        .chat-input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 1.0em;
+        }
+
+        #send-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #send-button:hover {
+            background-color: #0d2a3f;
+        }
+        
+        /* Mobile View */
+        @media (max-width: 768px) {
+            .chat-container {
+                flex-direction: column;
+                height: 95vh;
+                margin: 0;
+                border-radius: 0;
+            }
+            .chat-sidebar {
+                width: 100%;
+                min-height: 150px;
+                max-height: 150px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                overflow-x: auto; 
+                white-space: nowrap;
+                display: flex;
+                padding-top: 0;
+            }
+            .chat-sidebar h3 {
+                display: none;
+            }
+            .conversation-item {
+                display: inline-flex;
+                flex-direction: column;
+                text-align: center;
+                border-bottom: none;
+                border-right: 1px solid var(--border-color);
+                padding: 10px;
+            }
+            .conv-info { display: none; } 
+            .conv-avatar { margin-right: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header style="padding: 10px 0;">
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>தனிப்பட்ட உரையாடல்கள்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="chat-container">
+            <div class="chat-sidebar">
+                <h3>உரையாடல்கள்</h3>
+                <div id="conversations-list">
+                    <div class="conversation-item active" onclick="loadChat('MOCK_USER_B_ID')">
+                        <img class="conv-avatar" src="placeholder-avatar.png" alt="User B">
+                        <div class="conv-info">
+                            <strong>கவிஞர் B</strong>
+                            <small>சமீபத்திய: அருமை...</small>
+                        </div>
+                    </div>
+                    <div class="conversation-item" onclick="loadChat('MOCK_USER_C_ID')">
+                        <img class="conv-avatar" src="placeholder-avatar.png" alt="User C">
+                        <div class="conv-info">
+                            <strong>கவிஞர் C</strong>
+                            <small>புதிய செய்தி!</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <div class="chat-header" id="chat-partner-name">ஒரு உரையாடலைத் தேர்ந்தெடுக்கவும்</div>
+
+                <div class="message-area" id="message-area">
+                    <p style="text-align:center; color:#777; padding: 20px;">வரவேற்பு! அரட்டை தொடங்க, ஒரு கவிஞரைத் தேர்ந்தெடுக்கவும்.</p>
+                </div>
+                
+                <div id="typing-indicator">
+                    <small id="typing-status">தட்டச்சு செய்கிறார்...</small> 
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="message-input" placeholder="உங்கள் செய்தியை உள்ளிடவும்..." onkeyup="window.sendTypingIndicator()">
+                    <button id="send-button" onclick="window.sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Placeholder functions called by HTML (Actual logic in chat.js)
+        window.sendMessage = function() {
+            // Logic handled by chat.js
+            window.showToastNotification("செய்தி அனுப்புகிறது...", 'info');
+        };
+        
+        window.sendTypingIndicator = function() {
+            // Logic handled by chat.js
+            console.log("Typing indicator trigger.");
+        };
+
+        window.loadChat = function(userId) {
+            // Logic handled by chat.js
+            console.log(`Loading chat for ${userId}`);
+        }
+    </script>
+</body>
+</html>
