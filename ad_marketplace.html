@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>விளம்பரச் சந்தை - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+
+    <style>
+        .ad-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .ad-card {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #e67e22;
+        }
+        
+        .slot-item {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .buy-btn {
+            background-color: #e67e22;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>📢 Native Ad Slot Marketplace</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="ad-container">
+            <h2>விளம்பர இடங்களை வாங்குதல்</h2>
+            
+            <div class="ad-card">
+                <h3>கிடைக்கும் விளம்பர இடங்கள்</h3>
+                
+                <div class="slot-item">
+                    <div>
+                        <strong>இடம்: முகப்புப் பக்கம் (Home Page - Top Banner)</strong>
+                        <small style="display:block; color:#777;">விலை: 10 NKT / நாள் | இலக்கு: அனைத்துப் பயனர்கள்</small>
+                    </div>
+                    <button class="buy-btn" onclick="purchaseAdSlot('home_top')">இடம் வாங்க</button>
+                </div>
+                
+                <div class="slot-item">
+                    <div>
+                        <strong>இடம்: கவிதை பக்கம் (Poem View - Bottom)</strong>
+                        <small style="display:block; color:#777;">விலை: 5 NKT / நாள் | இலக்கு: உள்நுழைந்த பயனர்கள்</small>
+                    </div>
+                    <button class="buy-btn" onclick="purchaseAdSlot('poem_bottom')">இடம் வாங்க</button>
+                </div>
+                
+                <p style="margin-top: 20px;">
+                    <i class="fas fa-info-circle"></i> விளம்பர இடங்கள் டோக்கன் (NKT) மூலம் ஏலத்தில் வாங்கப்படும்.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 நான் கவிதை.</p>
+    </footer>
+
+    <script>
+        window.purchaseAdSlot = function(slotId) {
+            window.showToastNotification(`விளம்பர இடம் ${slotId} ஏலத்திற்கு அனுப்பப்படுகிறது.`, 'info');
+        }
+    </script>
+</body>
+  </html>
