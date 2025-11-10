@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>புகார் பலகம் - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="admin.js"></script> 
+
+    <style>
+        .report-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .report-table th, .report-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .report-table th {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .report-table tr:nth-child(even) {
+            background-color: var(--background-color);
+        }
+        
+        .action-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>🚫 உள்ளடக்கப் புகார் மற்றும் மாடரேஷன் பலகம்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="report-container">
+            <h2>🚨 புகாரளிக்கப்பட்ட இடுகைகள்</h2>
+            <p id="report-summary">மொத்தம் 5 செயலில் உள்ள புகார்கள் உள்ளன. (தரவு ஏற்றுகிறது...)</p>
+
+            <table class="report-table" id="reports-table">
+                <thead>
+                    <tr>
+                        <th>புகார் ID</th>
+                        <th>உள்ளடக்கத் தலைப்பு</th>
+                        <th>வகை</th>
+                        <th>நிலை</th>
+                        <th>செயல்</th>
+                    </tr>
+                </thead>
+                <tbody id="reports-body">
+                    <tr><td colspan="5" style="text-align:center;">தரவு ஏற்றுகிறது...</td></tr>
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+    </footer>
+
+    <script>
+        // Placeholder function to load reports (Logic belongs in admin.js)
+        document.addEventListener('DOMContentLoaded', () => {
+            window.showToastNotification("புகார் பலகம் ஏற்றப்படுகிறது. நிர்வாக அங்கீகாரத்தைச் சரிபார்க்கவும்.", 'info');
+        });
+    </script>
+</body>
+</html>
