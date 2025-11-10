@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>சந்தா நிலைகள் - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+
+    <style>
+        .subscription-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .tier-card {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .tier-card.premium { border: 3px solid #3498db; }
+        .tier-card.ultimate { border: 3px solid #f1c40f; }
+
+        .tier-card h3 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .tier-card .price {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .tier-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        
+        .tier-card ul li {
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .subscribe-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tier-card.ultimate .subscribe-btn {
+            background-color: #f39c12;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>👑 சந்தா நிலைகள் (Premium / Ultimate Tiers)</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="subscription-container">
+            <h2>உங்கள் அனுபவத்தை மேம்படுத்துங்கள்</h2>
+            
+            <div class="tier-grid">
+                
+                <div class="tier-card">
+                    <h3>Standard (இலவசம்)</h3>
+                    <div class="price">₹0</div>
+                    <ul>
+                        <li><i class="fas fa-check-circle" style="color:green;"></i> வரம்பற்ற வாசிப்பு</li>
+                        <li><i class="fas fa-check-circle" style="color:green;"></i> கவிதை பதிவேற்றம்</li>
+                        <li><i class="fas fa-times-circle" style="color:red;"></i> விளம்பரங்கள் நீக்கப்படாது</li>
+                        <li><i class="fas fa-times-circle" style="color:red;"></i> பிரத்தியேக ஃபோரம் அணுகல் இல்லை</li>
+                    </ul>
+                    <button class="subscribe-btn" disabled>தற்போதைய திட்டம்</button>
+                </div>
+                
+                <div class="tier-card premium">
+                    <h3>Premium</h3>
+                    <div class="price">₹99 / மாதம்</div>
+                    <ul>
+                        <li><i class="fas fa-check-circle" style="color:green;"></i> அனைத்து Standard அம்சங்கள்</li>
+                        <li><i class="fas fa-check-circle" style="color:green;"></i> விளம்பரங்கள் நீக்கப்படும்</li>
+                        <li><i class="fas fa-check-circle" style="color:green;"></i> ஆடியோ வாசிப்பு பதிவேற்றம்</li>
+                        <li><i class="fas fa-star" style="color:#3498db;"></i> பிரீமியம் பேட்ஜ்</li>
+                    </ul>
+                    <button class="subscribe-btn" onclick="subscribe('premium')">Premium பெறுக</button>
+                </div>
+                
+                <div class="tier-card ultimate">
+                    <h3>Ultimate</h3>
+                    <div class="price">₹499 / மாதம்</div>
+                    <ul>
+                        <li><i class="fas fa-check-circle" style="color:green;"></i> அனைத்து Premium அம்சங்கள்</li>
+                        <li><i class="fas fa-crown" style="color:#f39c12;"></i> Ultimate பேட்ஜ் & தனிப்பட்ட URL</li>
+                        <li><i class="fas fa-users" style="color:#f39c12;"></i> பிரத்தியேக ஃபோரம் அணுகல்</li>
+                        <li><i class="fas fa-gavel" style="color:#f39c12;"></i> கவிதை உரிமச் சந்தையில் முன்னுரிமை</li>
+                    </ul>
+                    <button class="subscribe-btn" onclick="subscribe('ultimate')">Ultimate பெறுக</button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+    </footer>
+
+    <script>
+        // Placeholder for subscription logic (Monetization logic)
+        window.subscribe = function(tier) {
+            window.showToastNotification(`நீங்கள் ${tier} சந்தாவைப் பெறக் கோரினீர்கள். கட்டணப் பக்கம் திறக்கிறது...`, 'info');
+        }
+    </script>
+</body>
+  </html>
