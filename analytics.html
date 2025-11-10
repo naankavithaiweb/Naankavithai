@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>அனலிட்டிக்ஸ் & டேட்டா - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="analytics.js"></script> <style>
+        .analytics-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stats-card {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .stats-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .stats-card p {
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        
+        /* Specific card styles */
+        .user-card { border-top-color: #2ecc71; } /* Green */
+        .content-card { border-top-color: #f39c12; } /* Orange */
+        .system-card { border-top-color: #3498db; } /* Blue */
+        
+        .realtime-data {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .chart-placeholder {
+            min-height: 250px;
+            background-color: var(--background-color);
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            border: 1px dashed var(--border-color);
+            margin-top: 15px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>📊 நிர்வாக அனலிட்டிக்ஸ் மற்றும் தரவுக் கட்டுப்பாட்டுப் பலகம்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="analytics-container">
+            <h2>தரவு சுருக்கம் & செயல்திறன் கண்காணிப்பு</h2>
+
+            <div class="stats-grid">
+                
+                <div class="stats-card user-card">
+                    <h3><i class="fas fa-users"></i> பயனர் மற்றும் நிதி அளவீடுகள்</h3>
+                    <div id="user-metrics-data">
+                        <p><i class="fas fa-spinner fa-spin"></i> தரவு ஏற்றுகிறது...</p>
+                    </div>
+                    <div id="churn-prediction-data" style="margin-top: 20px; border-top: 1px dotted var(--border-color); padding-top: 15px;">
+                        <h4>கணக்கு மூடல் முன்னறிவிப்பு</h4>
+                        <p>அதிகரிக்கும் அபாயம் உள்ளதா? (பின்தளம் தேவை)</p>
+                    </div>
+                </div>
+
+                <div class="stats-card content-card">
+                    <h3><i class="fas fa-chart-bar"></i> உள்ளடக்க செயல்திறன்</h3>
+                    <div id="content-metrics-data">
+                        <p><i class="fas fa-spinner fa-spin"></i> தரவு ஏற்றுகிறது...</p>
+                    </div>
+                    <div class="chart-placeholder">
+                        <p>கவிதைப் பார்வைகள் மற்றும் ஈடுபாட்டின் (Engagement) விளக்கப்படம் (Placeholder)</p>
+                    </div>
+                </div>
+                
+                <div class="stats-card system-card">
+                    <h3><i class="fas fa-heartbeat"></i> அமைப்பு ஆரோக்கியம்</h3>
+                    <div id="system-health-status">
+                        <p><i class="fas fa-spinner fa-spin"></i> நிலை சரிபார்க்கிறது...</p>
+                    </div>
+                    <p style="margin-top: 20px;">**நிகழ்நேர பயனர்கள்:** <span class="realtime-data" id="realtime-users">N/A</span></p>
+                    <div class="chart-placeholder">
+                        <p>சர்வர் லேடன்சி மற்றும் பிழைகளின் விளக்கப்படம் (Placeholder)</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="stats-card" style="grid-column: 1 / -1;">
+                <h3><i class="fas fa-route"></i> போக்குவரத்து மூல கண்காணிப்பு</h3>
+                <p>இந்தத் தகவலைப் பார்க்கவும், `analytics.js` இல் உள்ள `trackTrafficSource` செயல்பாட்டைப் பயன்படுத்தவும்.</p>
+                <div id="traffic-data">
+                    <p>சமீபத்திய மூலங்கள்: Google Search, WhatsApp Group, Direct.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. அனலிட்டிக்ஸ் பகுதி.</p>
+    </footer>
+
+    <script>
+        // Ensure analytics are only loaded if admin is authenticated (handled by admin.js logic)
+        document.addEventListener('DOMContentLoaded', () => {
+             // We rely on analytics.js functions to load the data here
+             // loadUserMetrics(); loadContentMetrics(); checkSystemHealth(); etc.
+             // (These are implicitly called via the admin.js auth check flow)
+        });
+    </script>
+</body>
+</html>
