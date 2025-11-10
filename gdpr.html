@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>தரவுக் கோரிக்கை / GDPR - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script> 
+    <script type="module" src="script.js"></script> 
+
+    <style>
+        .gdpr-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .gdpr-card {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #3498db; 
+        }
+
+        .gdpr-card h2 {
+            color: #3498db;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .gdpr-card input, .gdpr-card textarea, .gdpr-card select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .gdpr-card button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>தரவுக் கோரிக்கை மற்றும் கணக்கு நீக்குதல்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="gdpr-container">
+            <div class="gdpr-card">
+                <h2>🛡️ GDPR / தரவுக் கோரிக்கை இணக்கம்</h2>
+                <p>உங்கள் தனிப்பட்ட தரவுகளைப் பார்க்க, பதிவிறக்க அல்லது நீக்க இங்கே கோரிக்கை சமர்ப்பிக்கலாம்.</p>
+                
+                <form id="gdpr-request-form">
+                    <label for="request-type">கோரிக்கை வகை:</label>
+                    <select id="request-type" required>
+                        <option value="data_access">எனது தரவைப் பதிவிறக்க அனுமதி</option>
+                        <option value="account_deletion">கணக்கை நிரந்தரமாக நீக்குதல்</option>
+                        <option value="data_correction">தரவு திருத்தம்</option>
+                    </select>
+                    
+                    <label for="email-confirm">மின்னஞ்சலை உறுதிப்படுத்தவும்:</label>
+                    <input type="email" id="email-confirm" placeholder="உங்கள் கணக்கின் மின்னஞ்சலை உள்ளிடவும்" required>
+                    
+                    <label for="reason">காரணம் / விவரங்கள் (விரும்பினால்):</label>
+                    <textarea id="reason" rows="4" placeholder="உங்கள் கோரிக்கைக்கான காரணம் அல்லது கூடுதல் விவரங்கள்..."></textarea>
+                    
+                    <button type="submit" onclick="submitDataRequest()">
+                        <i class="fas fa-paper-plane"></i> கோரிக்கையைச் சமர்ப்பி
+                    </button>
+                    
+                    <p style="margin-top: 15px; font-size: 0.9em; color:#777;">
+                        கணக்கு நீக்கக் கோரிக்கைகள் 30 நாட்களுக்குள் செயலாக்கப்படும்.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+    </footer>
+
+</body>
+                                                                     </html>
