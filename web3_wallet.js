@@ -1,0 +1,241 @@
+/*
+ * File: web3_wallet.js
+ * Description: Handles External Wallet Login (Web3) and Token Gated Content logic.
+ * Integrates: Checks for Web3 provider (Metamask) and manages connection/disconnection.
+ * Purpose: Allows users to interact with DeFi features using their external crypto wallets.
+ * FIX: Added logic to check Token Unlock status for specific poems.
+ */
+
+// --- 1. FIREBASE IMPORTS ---
+import { auth, db } from "./auth.js";
+import { 
+    doc, 
+    updateDoc, 
+    getDoc, 
+    serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// --- 2. GLOBAL ELEMENTS ---
+const walletStatus = document.getElementById('wallet-status');
+const walletAddressDisplay = document.getElementById('wallet-address');
+const connectBtn = document.getElementById('connect-wallet-btn');
+const disconnectBtn = document.getElementById('disconnect-wallet-btn');
+
+let currentWalletAddress = null;
+const MOCK_NKT_BALANCE = 350; // MOCK BALANCE for testing Token Gating
+
+/**
+ * Checks if a Web3 provider (e.g., Metamask) is available.
+ * @returns {boolean}
+ */
+function isWeb3Available() {
+    return typeof window.ethereum !== 'undefined';
+}
+
+/**
+ * Updates the UI based on wallet connection status.
+ */
+function updateWalletUI(address) {
+    if (address) {
+        currentWalletAddress = address;
+        if(walletStatus) walletStatus.textContent = '✅ வாலட் வெற்றிகரமாக இணைக்கப்பட்டுள்ளது';
+        if(walletAddressDisplay) walletAddressDisplay.textContent = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+        if(walletStatus) walletStatus.style.color = '#2ecc71';
+        if(connectBtn) connectBtn.style.display = 'none';
+        if(disconnectBtn) disconnectBtn.style.display = 'block';
+    } else {
+        currentWalletAddress = null;
+        if(walletStatus) walletStatus.textContent = 'வாலட் இணைக்கப்படவில்லை.';
+        if(walletAddressDisplay) walletAddressDisplay.textContent = 'N/A';
+        if(walletStatus) walletStatus.style.color = '#e74c3c';
+        if(connectBtn) connectBtn.style.display = 'block';
+        if(disconnectBtn) disconnectBtn.style.display = 'none';
+    }
+}
+
+// --- 3. CORE WALLET FUNCTIONS (KEEPING EXISTING LOGIC) ---
+
+/**
+ * Handles the External Wallet Connection process.
+ */
+window.connectExternalWallet = async function() {
+    if (!isWeb3Available()) {
+        window.showToastNotification("Web3 வழங்குநர் (எ.கா. Metamask) கிடைக்கவில்லை. அதை நிறுவவும்.", 'error');
+        return;
+    }
+    
+    if (!auth.currentUser) {
+        window.showToastNotification("வாலட்டை இணைக்க, நீங்கள் நான் கவிதை தளத்தில் உள்நுழைய வேண்டும்.", 'warning');
+        return;
+    }
+
+    try {
+        if(walletStatus) walletStatus.textContent = 'வாலட் அணுகலுக்காகக் காத்திருக்கிறது...';
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const selectedAddress = accounts[0];
+
+        // 1. Update UI
+        updateWalletUI(selectedAddress);
+
+        // 2. Bind wallet address to Firebase user profile 
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(userRef, {
+            web3WalletAddress: selectedAddress,
+            walletConnected: serverTimestamp()
+        });
+        
+        window.showToastNotification("வாலட் வெற்றிகரமாக இணைக்கப்பட்டது!", 'success');
+        
+        // 3. Trigger check for token-gated content unlocks (on the current page)
+        checkTokenGatedAccess(selectedAddress); 
+
+    } catch (error) {
+        console.error("Wallet connection failed:", error);
+        window.showToastNotification("வாலட் இணைப்பை பயனர் நிராகரித்துவிட்டார் அல்லது பிழை ஏற்பட்டது.", 'error');
+        updateWalletUI(null);
+    }
+}
+
+/**
+ * Handles wallet disconnection.
+ */
+window.disconnectExternalWallet = async function() {
+    if (!auth.currentUser) return;
+
+    try {
+        // 1. Remove binding from Firebase user profile
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(userRef, {
+            web3WalletAddress: null
+        });
+
+        // 2. Update UI
+        updateWalletUI(null);
+        window.showToastNotification("வாலட் துண்டிக்கப்பட்டது.", 'info');
+
+        // 3. Re-lock all token-gated content on the current page
+        checkTokenGatedAccess(null); 
+
+    } catch (error) {
+        console.error("Wallet disconnection failed:", error);
+        window.showToastNotification("துண்டிப்பில் பிழை ஏற்பட்டது.", 'error');
+    }
+}
+
+// --- 4. DEFI & TOKEN GATED CONTENT ---
+
+/**
+ * FIX: Token-Based Content Unlock Check (Checks if the user can view a specific poem).
+ * This function is used by the Poem View page (not web3.html).
+ * @param {string} poemId - The ID of the poem to check.
+ * @param {number} requiredTokens - Tokens needed to unlock this poem.
+ * @returns {boolean} - True if access is granted.
+ */
+window.canAccessTokenGatedContent = function(poemId, requiredTokens) {
+    if (!currentWalletAddress) {
+        window.showToastNotification("உள்ளடக்கத்தைத் திறக்க வாலட்டை இணைக்கவும்.", 'warning');
+        return false;
+    }
+
+    // FIX: This simulates checking the balance against the requirement
+    if (MOCK_NKT_BALANCE >= requiredTokens) {
+        console.log(`Poem ${poemId} unlocked. Balance: ${MOCK_NKT_BALANCE} >= Req: ${requiredTokens}`);
+        return true;
+    } else {
+        window.showToastNotification(`உள்ளடக்கத்தைத் திறக்க ${requiredTokens} NKT தேவை. உங்களிடம் ${MOCK_NKT_BALANCE} NKT உள்ளது.`, 'error');
+        return false;
+    }
+}
+
+
+/**
+ * Checks user's NKT balance (MOCK) and updates Token Gated Content status on web3.html.
+ * @param {string} walletAddress - The connected Web3 address.
+ */
+async function checkTokenGatedAccess(walletAddress) {
+    if (!walletAddress) {
+        // Reset status if disconnected
+        if (document.getElementById('content-status-1')) document.getElementById('content-status-1').textContent = "பூட்டப்பட்டுள்ளது";
+        if (document.getElementById('content-status-2')) document.getElementById('content-status-2').textContent = "பூட்டப்பட்டுள்ளது";
+        return;
+    }
+    
+    // 1. Placeholder for Smart Contract Interaction 
+    const balance = MOCK_NKT_BALANCE; // Use mock balance
+
+    // 2. Check Tiers and update UI elements
+    const tiers = [
+        { id: 'content-status-1', required: 100 },
+        { id: 'content-status-2', required: 500 }
+    ];
+    
+    tiers.forEach(tier => {
+        const statusElement = document.getElementById(tier.id);
+        if (!statusElement) return;
+
+        if (balance >= tier.required) {
+            statusElement.textContent = "திறக்கப்பட்டுள்ளது";
+            statusElement.style.color = '#2ecc71';
+        } else {
+            statusElement.textContent = `பூட்டப்பட்டுள்ளது (தேவை: ${tier.required} NKT - தற்போதைய இருப்பு: ${balance})`;
+            statusElement.style.color = '#e74c3c';
+        }
+    });
+
+    window.showToastNotification(`உங்கள் NKT இருப்பு: ${balance}. டோக்கன் அனுமதிச் சரிபார்ப்பு முடிந்தது.`, 'info');
+}
+
+/**
+ * FIX: Decentralized Escrow for Licensing (Check Escrow Status).
+ */
+window.checkEscrowStatus = function() {
+    window.showToastNotification("எஸ்க்ரோ நிலையை பிளாக்செயினில் சரிபார்க்கிறது... (Web3 Smart Contract லாஜிக் தேவை)", 'warning');
+}
+
+/**
+ * Exporting the core check function
+ */
+export { canAccessTokenGatedContent }; // Export for use in search.js/poem_view.js
+
+// --- 5. INITIALIZATION & WALLET LISTENER (KEEPING EXISTING LOGIC) ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Check for existing connection when the page loads
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            try {
+                const userRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(userRef);
+                const web3Address = docSnap.data()?.web3WalletAddress;
+                
+                if (web3Address) {
+                    updateWalletUI(web3Address);
+                    // Only check gated access if we are on the web3.html page
+                    if (window.location.pathname.includes('web3.html')) {
+                        checkTokenGatedAccess(web3Address); 
+                    }
+                } else {
+                    updateWalletUI(null);
+                }
+            } catch (e) {
+                console.error("Error fetching web3 address from Firestore:", e);
+                updateWalletUI(null);
+            }
+        } else if (window.location.pathname.includes('web3.html')) {
+             updateWalletUI(null);
+        }
+    });
+
+    // Web3 Listener: Handles account changes if the provider is available
+    if (isWeb3Available()) {
+        window.ethereum.on('accountsChanged', (accounts) => {
+            const newAddress = accounts[0] || null;
+            if (newAddress) {
+                updateWalletUI(newAddress);
+                checkTokenGatedAccess(newAddress);
+            } else {
+                window.disconnectExternalWallet(); 
+            }
+        });
+    }
+});
