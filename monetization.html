@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>பணமாக்குதல் & வருமானம் - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="monetize.js"></script> <style>
+        /* (Keep existing CSS styles in monetization.html) */
+        .monetization-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .monetization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .monetization-card {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .earnings-card { border-top: 5px solid #2ecc71; }
+        .token-card { border-top: 5px solid #ffcc00; }
+        .subscription-card { border-top: 5px solid #3498db; }
+        .ad-card { border-top: 5px solid #e67e22; }
+        .staking-card { border-top: 5px solid #9b59b6; } /* FIX: New Card Style */
+
+        .monetization-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .data-display {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 15px 0;
+        }
+
+        .token-card .data-display {
+            color: #ffcc00;
+        }
+        
+        .monetization-card button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .monetization-card button:hover {
+            background-color: #0d2a3f;
+        }
+
+        .sub-tier-btn {
+            background-color: #3498db;
+        }
+        .sub-tier-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .staking-card button {
+            background-color: #9b59b6;
+        }
+
+        /* Decentralized Escrow/Ad Transparency Card Styling */
+        .info-card {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+            border-left: 5px solid #9b59b6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>💰 பணமாக்குதல் & DeFi மையம்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="monetization-container">
+            <h2>உங்கள் வருமானம் மற்றும் நிதிச் செயல்பாடுகள்</h2>
+
+            <div class="monetization-grid">
+                
+                <div class="monetization-card earnings-card">
+                    <h3><i class="fas fa-money-bill-wave"></i> கவிஞர் வருமானம்</h3>
+                    <p>சம்பாதித்த (அங்கீகரிக்கப்பட்ட) நாண் கவிதை டோக்கன்கள்:</p>
+                    <div class="data-display" id="available-earnings">0.00 TK</div>
+                    <p style="font-size:0.9em; color:#777;">(Views-based tracking)</p>
+                    <button onclick="requestWithdrawal()"><i class="fas fa-hand-holding-usd"></i> பணம் எடுப்பு கோரிக்கை</button>
+                    <button onclick="window.location.href='tax_ledger'" style="background-color: #e74c3c;">
+                        <i class="fas fa-file-invoice"></i> வரி / இணக்க லெட்ஜர்
+                    </button>
+                </div>
+
+                <div class="monetization-card token-card">
+                    <h3><i class="fas fa-coins"></i> நாண் கவிதை டோக்கன்</h3>
+                    <p>உங்கள் டோக்கன் இருப்பு:</p>
+                    <div class="data-display" id="token-balance">0 TK</div>
+                    <a href="web3" class="sub-tier-btn" style="background-color: #9b59b6;">
+                        <i class="fas fa-wallet"></i> Web3 வாலட் இணைப்பு
+                    </a>
+                    <button onclick="window.location.href='gift_points.html'" style="background-color: #e91e63;">
+                        <i class="fas fa-gift"></i> பரிசுப் புள்ளிகளை நிர்வகி
+                    </button>
+                </div>
+                
+                <div class="monetization-card subscription-card">
+                    <h3><i class="fas fa-crown"></i> சந்தா நிலைகள்</h3>
+                    <p>உங்கள் தற்போதைய நிலை: <span id="current-tier">Standard</span></p>
+                    <a href="subscription.html" class="sub-tier-btn">
+                        <i class="fas fa-arrow-up"></i> Premium / Ultimate நிலைக்கு மேம்படுத்து
+                    </a>
+                    <p style="margin-top:15px; font-size:0.9em;">சந்தா வருவாய் வெளிப்படைத்தன்மை: <a href="ad_transparency.html">Transparency Ledger</a></p>
+                </div>
+                
+                <div class="monetization-card staking-card">
+                    <h3><i class="fas fa-piggy-bank"></i> டோக்கன் சேமிப்பு (Staking)</h3>
+                    <p>சேமிப்பில் பூட்டப்பட்ட நாண் கவிதை டோக்கன்கள்:</p>
+                    <div class="data-display" id="staked-tokens">0 TK</div>
+                    <p style="font-size:0.9em; color:#777;">(ஆண்டு வருமானம்: 5% APY Mock)</p>
+                    <button onclick="window.stakeTokens()"><i class="fas fa-lock"></i> டோக்கன்களைச் சேமி</button>
+                    <button onclick="window.unstakeTokens()" style="background-color: #6d4c41;">
+                        <i class="fas fa-lock-open"></i> சேமிப்பை நிறுத்து
+                    </button>
+                </div>
+
+                <div class="monetization-card ad-card">
+                    <h3><i class="fas fa-bullhorn"></i> விளம்பரம் & ஊக்குவிப்புகள்</h3>
+                    <p>உங்கள் கவிதைகளை அதிக பார்வையாளர்களுக்கு கொண்டு செல்லுங்கள்.</p>
+                    <button onclick="window.location.href='ad_marketplace.html'">
+                        <i class="fas fa-ad"></i> Native Ad Slot Marketplace
+                    </button>
+                    <button onclick="boostPost()"><i class="fas fa-rocket"></i> Paid Promotions (Boost Post)</button>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-handshake"></i> உரிமத்திற்கான டீசென்ட்ரலைஸ்டு எஸ்க்ரோ (Escrow)</h3>
+                <p>வணிகப் பயன்பாட்டுக்கான கவிதை உரிம விற்பனைக்கான டீசென்ட்ரலைஸ்டு ஒப்பந்தங்கள் இங்கே நிர்வகிக்கப்படும்.</p>
+                <a href="license_sales.html" class="approve-btn" style="background-color:#00796b;">
+                    <i class="fas fa-gavel"></i> கவிதை உரிம விற்பனையைப் பார்
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p class="copyright-text">&copy; 2024 நான் கவிதை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை. | <a href="gdpr">GDPR/தரவுக் கோரிக்கை</a></p>
+        
+        <div class="contact-icons">
+            <a href="mailto:naankavithaiweb@gmail.com" title="மின்னஞ்சல்" class="icon-btn"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/94752351754" target="_blank" title="வாட்ஸ்அப் (Mobile)" class="icon-btn"><i class="fab fa-whatsapp"></i></a>
+            <a href="tel:+94752351754" title="மொபைல் அழைப்பு" class="icon-btn"><i class="fas fa-phone"></i></a>
+            <a href="https://t.me/Mohammed_Sahan_1" target="_blank" title="டெலிகிராம் ID" class="icon-btn"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://t.me/Naan_kavithai" target="_blank" title="டெலிகிராம் சேனல்" class="icon-btn"><i class="fas fa-users"></i></a>
+            <a href="https://chat.whatsapp.com/C8BPddhMuTmE2Q0ZA8tIep" target="_blank" title="வாட்ஸ்அப் குழு" class="icon-btn"><i class="fab fa-whatsapp-square"></i></a>
+        </div>
+    </footer>
+
+</body>
+  </html>
