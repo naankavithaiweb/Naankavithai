@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>கவிதை உருவாக்கு - நான் கவிதை</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="script.js"></script> 
+    <script type="module" src="upload.js"></script> 
+    <script type="module" src="content.js"></script> 
+
+    <style>
+        .post-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .form-actions button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            margin-top: 10px; 
+        }
+
+        #publish-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        #publish-btn:hover {
+            background-color: #00796b;
+        }
+
+        #draft-btn {
+            background-color: #f0f0f0;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .upload-status {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" style="color:white; text-decoration:none;">
+                <h1>நான் கவிதை</h1>
+            </a>
+            <p>உங்கள் படைப்பாற்றலை வெளிப்படுத்துங்கள்</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="post-form-container">
+            <h2>🖋️ கவிதை பதிவிடும் படிவம்</h2>
+            <p>புதிய கவிதை, கவிதைத் தொடர் அல்லது கூட்டுப் படைப்பை இங்கு உருவாக்கவும்.</p>
+
+            <form id="kavithai-post-form">
+                
+                <div class="form-group">
+                    <label for="poem-title">தலைப்பு (Title):</label>
+                    <input type="text" id="poem-title" placeholder="உங்கள் கவிதையின் தலைப்பு" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="poem-content">உள்ளடக்கம் (Content):</label>
+                    <textarea id="poem-content" placeholder="உங்கள் கவிதையை இங்கே எழுதுங்கள்..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="poem-tags">குறிச்சொற்கள் (Tags):</label>
+                    <input type="text" id="poem-tags" placeholder="#காதல் #இயற்கை #சமூகம் - காற்புள்ளி (,) கொண்டு பிரிக்கவும்">
+                </div>
+                
+                <div class="form-group">
+                    <label for="image-upload">படம்/சூழல் படம் (Image Hosting - Cloudinary):</label>
+                    <input type="file" id="image-upload" accept="image/*">
+                    <div id="image-upload-status" class="upload-status"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="audio-upload">ஆடியோ வாசிப்பு (Audio Narration Upload):</label>
+                    <input type="file" id="audio-upload" accept="audio/*">
+                    <div id="audio-upload-status" class="upload-status"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="series-name">தொடர்/தொகுப்பு (Series/Collections):</label>
+                    <input type="text" id="series-name" placeholder="கவிதைத் தொடரின் பெயர் (விரும்பினால்)">
+                </div>
+
+                <div class="form-group">
+                    <label for="co-authors">கூட்டுப் படைப்பாளர் (Co-Authoring Feature):</label>
+                    <input type="text" id="co-authors" placeholder="@பயனர்1, @பயனர்2 (விரும்பினால்)">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" id="draft-btn"><i class="fas fa-save"></i> வரைவாகச் சேமி (Save Draft)</button>
+                    <button type="submit" id="publish-btn"><i class="fas fa-paper-plane"></i> கவிதையை வெளியிடு</button>
+                </div>
+                
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 நான் கவிதை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+        <div class="contact-icons">
+            <a href="mailto:naankavithaiweb@gmail.com" title="மின்னஞ்சல்" class="icon-btn"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/94752351754" target="_blank" title="வாட்ஸ்அப் (Mobile)" class="icon-btn"><i class="fab fa-whatsapp"></i></a>
+            <a href="tel:+94752351754" title="மொபைல் அழைப்பு" class="icon-btn"><i class="fas fa-phone"></i></a>
+            <a href="https://t.me/Mohammed_Sahan_1" target="_blank" title="டெலிகிராம் ID" class="icon-btn"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://t.me/Naan_kavithai" target="_blank" title="டெலிகிராம் சேனல்" class="icon-btn"><i class="fas fa-users"></i></a>
+            <a href="https://chat.whatsapp.com/C8BPddhMuTmE2Q0ZA8tIep" target="_blank" title="வாட்ஸ்அப் குழு" class="icon-btn"><i class="fab fa-whatsapp-square"></i></a>
+        </div>
+    </footer>
+
+</body>
+  </html>
