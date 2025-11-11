@@ -1,0 +1,390 @@
+/*
+ * File: styles.css
+ * Description: நான் கவிதை தளத்திற்கான பொதுவான வடிவமைப்பு (Global Styles).
+ * Includes: Noto Sans Tamil Font, Adaptive Theme Variables, Responsive Design.
+ * FIX: Enhanced aesthetics for a modern, cleaner look and better readability.
+ */
+
+/* --- 1. Root Variables & Font Setup (For Adaptive Theme/Font Control) --- */
+:root {
+    /* Color Variables - Default (Light Mode) */
+    --primary-color: #1a4d6f;      /* Deep Blue for Header/Key Elements */
+    --secondary-color: #00a86b;    /* Accent Color (e.g., Success, Links, Publish Btn) */
+    --background-color: #f4f7f6;   /* Light Page Background */
+    --card-background: #ffffff;    /* Card/Content Area Background */
+    --text-color: #333333;         /* Main Text Color */
+    --border-color: #e0e0e0;       /* Light border/separator */
+    --warning-color: #f39c12;      /* Yellow/Orange for warnings */
+    --error-color: #e74c3c;        /* Red for errors */
+
+    /* Font Variables - Using a slightly modernized stack */
+    --main-font: 'Noto Sans Tamil', 'Roboto', sans-serif;
+    --heading-font: 'Noto Sans Tamil', 'Merriweather', serif; 
+    --base-font-size: 16px;
+    --line-height: 1.6;
+}
+
+/* --- Dark Mode Adaptation (Auto Dark/Light Feature) --- */
+body.dark-mode {
+    --primary-color: #0d2a3f;
+    --secondary-color: #36c28f;
+    --background-color: #1e262c;
+    --card-background: #2c3e50;
+    --text-color: #ecf0f1;
+    --border-color: #444;
+    --warning-color: #ffcc00; 
+    --error-color: #c0392b; 
+}
+
+/* --- Dyslexia-Friendly Mode (Accessibility) --- */
+body.dyslexia-mode {
+    --line-height: 1.8; 
+    letter-spacing: 0.05em; 
+}
+
+/* --- Tamil Font Switcher Classes (Used by script.js) --- */
+body.font-a {
+    /* MOCK: Standard Noto Sans Tamil */
+    font-family: 'Noto Sans Tamil', sans-serif !important;
+}
+
+body.font-b {
+    /* MOCK: Example of a wider, clear font style */
+    font-family: 'Arial', sans-serif !important; 
+    --line-height: 1.7; 
+}
+
+body.font-c {
+    /* MOCK: Example of a more formal font style */
+    font-family: 'Verdana', sans-serif !important;
+    --line-height: 1.5;
+}
+/* -------------------------------------------------------- */
+
+
+/* --- 2. Global Resets and Base Typography --- */
+body {
+    font-family: var(--main-font);
+    font-size: var(--base-font-size);
+    line-height: var(--line-height);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.4s, color 0.4s; 
+}
+
+h1, h2, h3 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    margin-top: 0;
+    font-weight: 700; /* FIX: Ensuring bold appearance */
+}
+
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
+    color: var(--secondary-color);
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Input/Textarea Global Styling */
+input[type="text"], input[type="email"], input[type="password"], textarea, select {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--card-background); 
+    color: var(--text-color);
+    transition: background-color 0.4s, border-color 0.4s;
+}
+
+
+/* --- 3. Header and Navigation --- */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px 40px 15px 40px; 
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    color: white; 
+    margin-bottom: 5px;
+}
+
+header nav a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px 5px;
+    color: white; 
+    transition: background-color 0.3s;
+    border-radius: 4px;
+    font-size: 1.05em;
+}
+
+header nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+/* Sticky Header Logic (Used by script.js) */
+header.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* --- 4. Main Content Area --- */
+main {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+/* --- 5. Authentication and Buttons (UX FIXES) --- */
+#auth-container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    flex-wrap: wrap; 
+}
+
+.google-sign-in-btn, .wallet-login-btn {
+    /* FIX: Adding shadow/lift to buttons */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.0em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    margin: 5px; 
+    width: auto;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.google-sign-in-btn {
+    background-color: #db4437; /* Google Red */
+    color: white;
+}
+
+.wallet-login-btn {
+    background-color: #f39c12; /* Wallet Orange */
+}
+
+.google-sign-in-btn:hover, .wallet-login-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-1px);
+}
+
+
+/* User Profile Info */
+#user-profile-section {
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    display: flex !important; 
+    align-items: center;
+    justify-content: flex-end; 
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 10px 0 10px auto; 
+    width: auto;
+}
+
+#user-profile-section button, .profile-btn {
+    /* FIX: Applying button lift/shadow to profile buttons too */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    padding: 8px 12px; 
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--secondary-color); 
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s;
+    font-weight: bold;
+}
+
+#user-profile-section button:hover, .profile-btn:hover {
+    background-color: #00796b;
+    transform: translateY(-1px);
+}
+
+/* Notification Bell Icon */
+.notification-icon {
+    font-size: 1.3em;
+    margin-left: 15px;
+    color: var(--secondary-color);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+.notification-icon:hover {
+    color: var(--primary-color);
+}
+
+/* --- 6. Footer and Contact Icons --- */
+footer {
+    text-align: center;
+    padding: 25px 20px;
+    background-color: #2c3e50; 
+    color: white;
+    margin-top: 30px;
+}
+
+.copyright-text {
+    margin-top: 0;
+}
+
+.contact-icons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; 
+}
+
+.icon-btn {
+    color: white;
+    font-size: 1.8em;
+    margin: 0 12px;
+    transition: color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.icon-btn:hover {
+    color: var(--secondary-color); 
+    transform: scale(1.15);
+}
+
+/* Specific icon colors */
+.fa-whatsapp, .fa-whatsapp-square { color: #25D366; }
+.fa-telegram-plane, .fa-users { color: #0088cc; }
+.fa-envelope { color: #f4b400; }
+.fa-phone { color: #3498db; }
+
+
+/* --- 7. Responsive Design --- */
+@media (max-width: 600px) {
+    header {
+        padding: 15px;
+    }
+    
+    header nav a {
+        display: block;
+        margin: 5px auto;
+    }
+
+    main {
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    .google-sign-in-btn, .wallet-login-btn {
+        width: 100%;
+        margin: 5px 0;
+        font-size: 0.9em;
+        justify-content: center;
+    }
+
+    #auth-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #user-profile-section {
+        flex-direction: column;
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    #user-profile-section a, #user-profile-section button {
+        margin: 5px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .icon-btn {
+        font-size: 1.5em;
+        margin: 0 8px;
+    }
+}
+
+
+/* --- 8. Global Utility and Component Styles --- */
+
+/* Toast Notification Styles */
+#toast-container {
+    z-index: 9999;
+}
+
+.toast-notification {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-family: var(--main-font);
+}
+
+.toast-info { background-color: #3498db; }
+.toast-success { background-color: var(--secondary-color); }
+.toast-warning { background-color: var(--warning-color); }
+.toast-error { background-color: var(--error-color); }
+
+/* FIX: Poem Card Aesthetics and Hover Effect */
+.poem-card {
+    background-color: var(--card-background);
+    padding: 25px; /* Increased padding */
+    border-radius: 12px; /* Softer edges */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Stronger shadow/lift */
+    margin-bottom: 25px; 
+    border-left: 6px solid var(--secondary-color); /* Thicker border */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+.poem-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Action Buttons */
+.approve-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.reject-btn {
+    background-color: var(--error-color);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
