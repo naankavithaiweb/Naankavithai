@@ -1,0 +1,195 @@
+/*
+ * File: search.js
+ * Description: Handles Search, Filtering, and Personalized Feed Logic.
+ * Integrates: Firestore for querying 'kavithai' collection based on user inputs.
+ * Purpose: Provides utilities for finding content efficiently and is used for the Homepage Feed.
+ */
+
+// --- 1. FIREBASE IMPORTS ---
+import { auth, db } from "./auth.js";
+import { 
+    collection, 
+    query, 
+    where, 
+    orderBy, 
+    limit, 
+    getDocs,
+    startAt,
+    endAt
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// --- 2. GLOBAL ELEMENTS ---
+// Note: These elements are primarily used by the search.html page.
+const poemResultsList = document.getElementById('poem-results-list');
+const resultsCountDisplay = document.getElementById('results-count');
+const searchInput = document.getElementById('search-input');
+const filterTheme = document.getElementById('filter-theme');
+const filterSort = document.getElementById('filter-sort');
+const filterGeo = document.getElementById('filter-geo');
+const filterToken = document.getElementById('filter-token');
+
+// --- 3. SEARCH AND FILTERING LOGIC ---
+
+/**
+ * Performs the core search and filtering operation against Firestore.
+ * This function is exported for use in index.html.
+ */
+async function executeSearchQuery(searchTerm, filters, resultLimit = 10) {
+    
+    // 1. Base Query: Only show 'Approved' posts
+    let q = query(collection(db, "kavithai"), where("status", "==", "Approved"));
+    
+    // 2. Apply Theme Filter
+    if (filters.theme && filters.theme !== 'all') {
+        q = query(q, where("tags", "array-contains", filters.theme));
+    }
+    
+    // 3. Apply Geo Filter 
+    if (filters.geo && filters.geo !== 'global') {
+        q = query(q, where("location", "==", filters.geo)); 
+    }
+    
+    // 4. Apply Token Filter 
+    if (filters.token === 'gated' || filters.token === 'unlocked') {
+        window.showToastNotification("டோக்கன் வடிகட்டலை செயல்படுத்த Web3 லாஜிக் தேவை.", 'warning');
+        if (filters.token === 'gated') {
+             q = query(q, where("isTokenGated", "==", true));
+        } else {
+             // For unlocked, we skip filtering as the check happens on the client side
+        }
+    }
+    
+    // 5. Apply Search Term (Basic prefix search on title - requires Firestore index)
+    if (searchTerm) {
+        // NOTE: Uses Firestore's capabilities for prefix searching
+        q = query(
+            q, 
+            orderBy("title"), 
+            startAt(searchTerm), 
+            endAt(searchTerm + '\uf8ff')
+        );
+    }
+    
+    // 6. Apply Sorting (Advanced Dynamic Filtering)
+    const [field, direction] = filters.sort ? filters.sort.split('-') : ['date', 'desc']; 
+
+    if (field === 'date') {
+        q = query(q, orderBy("timestamp", direction));
+    } else if (field === 'views') {
+        q = query(q, orderBy("views", direction));
+    } else if (field === 'rating') {
+        q = query(q, orderBy("averageRating", direction));
+    } else if (field === 'author') {
+        q = query(q, orderBy("authorName", direction)); 
+    }
+    
+    // Limit results
+    q = query(q, limit(resultLimit));
+
+    try {
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+        console.error("Firestore Search Query Failed:", error);
+        // A dedicated Index Creation link will appear in the console if needed
+        return [];
+    }
+}
+
+/**
+ * Renders the search results specifically for the search.html page.
+ * This function is exported but only used when poemResultsList element exists.
+ */
+function renderResults(poems) {
+    if (!poemResultsList) return; // Only execute on search.html
+
+    poemResultsList.innerHTML = '';
+    resultsCountDisplay.textContent = `தேடல் முடிவுகள்: ${poems.length} கவிதைகள்`;
+    
+    if (poems.length === 0) {
+        poemResultsList.innerHTML = '<p style="text-align:center; padding: 20px;">உங்கள் தேடலுக்குப் பொருத்தமான கவிதைகள் எதுவும் இல்லை.</p>';
+        return;
+    }
+
+    poems.forEach(poem => {
+        const card = document.createElement('div');
+        card.className = 'poem-card';
+        card.setAttribute('onclick', `window.location.href='poem_view?id=${poem.id}'`);
+
+        const tags = poem.tags ? poem.tags.map(tag => `#${tag}`).join(' ') : '';
+        const views = poem.views || 0;
+        const rating = (poem.averageRating || 0).toFixed(1);
+        
+        card.innerHTML = `
+            <h3>${poem.title}</h3>
+            <p>${poem.content ? poem.content.substring(0, 100) : 'உள்ளடக்கம் இல்லை'}...</p>
+            <div class="poem-meta">
+                ஆசிரியர்: ${poem.authorName || 'அறியப்படாதவர்'} | 
+                பார்வைகள்: ${views} | 
+                மதிப்பீடு: ${rating} <i class="fas fa-star"></i>
+            </div>
+            <p style="font-size: 0.85em; color: var(--secondary-color);">${tags}</p>
+        `;
+        poemResultsList.appendChild(card);
+    });
+}
+
+/**
+ * Collects filters and initiates the search (Used by search.html).
+ */
+window.performSearch = async function() {
+    if (!searchInput) return; // Only run on search.html
+
+    poemResultsList.innerHTML = '<p style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> கவிதைகளைத் தேடுகிறது...</p>';
+    resultsCountDisplay.textContent = `தேடல் முடிவுகள்: ஏற்றுகிறது...`;
+    
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    
+    const filters = {
+        theme: filterTheme.value,
+        sort: filterSort.value,
+        geo: filterGeo.value,
+        token: filterToken.value
+    };
+    
+    const results = await executeSearchQuery(searchTerm, filters, 50); // Limit 50 for search page
+    renderResults(results);
+}
+
+window.applyFilters = function() {
+    window.performSearch();
+}
+
+window.resetFilters = function() {
+    searchInput.value = '';
+    if (filterTheme) filterTheme.value = 'all';
+    if (filterSort) filterSort.value = 'date-desc';
+    if (filterGeo) filterGeo.value = 'global';
+    if (filterToken) filterToken.value = 'none';
+    window.performSearch();
+}
+
+// --- 4. INITIALIZATION ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Only run search logic if on the dedicated search page
+    if (window.location.pathname.includes('search.html')) {
+        auth.onAuthStateChanged(() => {
+            window.performSearch();
+        });
+    }
+    
+    // Keyboard Shortcut 
+    if (searchInput) {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/') { 
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+    }
+});
+
+
+// --- 5. EXPORTS (CRUCIAL for index.html) ---
+export { executeSearchQuery, renderResults };
